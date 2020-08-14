@@ -3,7 +3,9 @@
     "description": "Export toggl data in the format I need for reporting hours",
     "type": "project",
     "require": {
-        "guzzlehttp/guzzle": "^7.0"
+        "guzzlehttp/guzzle": "^7.0",
+        "vlucas/phpdotenv": "^5.1",
+        "nesbot/carbon": "^2.38"
     },
     "license": "MIT",
     "authors": [
