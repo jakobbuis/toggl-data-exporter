@@ -67,15 +67,24 @@ foreach ($output as $client => $projectData) {
     }
 }
 
+// Format entries
+foreach ($output as $client => $data) {
+    foreach ($data as $project => $data) {
+        foreach ($data as $day => $entry) {
+            // Format time as HH:MM
+            $output[$client][$project][$day]['time'] = gmdate('H:i', $entry['time'] / 1000);
+            // Merge all descriptions as comma-seperated entries
+            $output[$client][$project][$day]['descriptions'] = implode(', ', $entry['descriptions']);
+        }
+    }
+}
+
 // Ouput data
 $out = fopen('php://memory', 'w+');
 foreach ($output as $client => $data) {
     foreach ($data as $project => $data) {
         foreach ($data as $day => $entry) {
-            // format for output
-            $time = gmdate('H:i', $entry['time'] / 1000);
-            $descriptions = implode(', ', $entry['descriptions']);
-            fwrite($out, "{$client} - {$project} - {$day}: {$time} {$descriptions}" . PHP_EOL);
+            fwrite($out, "{$client} - {$project} - {$day}: {$entry['time']} {$entry['descriptions']}" . PHP_EOL);
         }
     }
 }
