@@ -56,6 +56,16 @@ foreach ($timeEntries as $entry) {
     $output[$client][$project][$day]['time'] += $entry->dur;
     $output[$client][$project][$day]['descriptions'][] = $entry->description;
 }
+// Sort the cube for easier reading comprehension
+ksort($output);
+foreach ($output as $client => $projectData) {
+    ksort($projectData);
+    $output[$client] = $projectData;
+    foreach ($projectData as $project => $dayData) {
+        ksort($dayData);
+        $output[$client][$project] = $dayData;
+    }
+}
 
 // Ouput data
 $out = fopen('php://memory', 'w+');
