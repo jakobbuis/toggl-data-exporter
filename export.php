@@ -71,8 +71,9 @@ foreach ($output as $client => $projectData) {
 foreach ($output as $client => $data) {
     foreach ($data as $project => $data) {
         foreach ($data as $day => $entry) {
-            // Format time as HH:MM
-            $output[$client][$project][$day]['time'] = gmdate('H:i', $entry['time'] / 1000);
+            // Format time as 0.5 for an half hour
+            $time = round($entry['time'] / 1000 / 60 / 60, 2);
+            $output[$client][$project][$day]['time'] = $time;
             // Merge all descriptions as comma-seperated entries
             $output[$client][$project][$day]['descriptions'] = implode(', ', $entry['descriptions']);
         }
