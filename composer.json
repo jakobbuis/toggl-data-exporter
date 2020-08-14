@@ -1,0 +1,16 @@
+{
+    "name": "jakobbuis/toggl-data-formatter",
+    "description": "Export toggl data in the format I need for reporting hours",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jakob Buis",
+            "email": "jakob@jakobbuis.nl"
+        }
+    ],
+    "minimum-stability": "stable"
+}
