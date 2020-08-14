@@ -84,7 +84,7 @@ $out = fopen('php://memory', 'w+');
 foreach ($output as $client => $data) {
     foreach ($data as $project => $data) {
         foreach ($data as $day => $entry) {
-            fwrite($out, "{$client} - {$project} - {$day}: {$entry['time']} {$entry['descriptions']}" . PHP_EOL);
+            fwrite($out, "{$client} - {$project} - {$day} [{$entry['time']}] {$entry['descriptions']}" . PHP_EOL);
         }
     }
 }
