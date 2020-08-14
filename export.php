@@ -86,6 +86,7 @@ foreach ($output as $client => $data) {
         foreach ($data as $day => $entry) {
             fwrite($out, "{$client} - {$project} - {$day} [{$entry['time']}] {$entry['descriptions']}" . PHP_EOL);
         }
+        fwrite($out, PHP_EOL);
     }
 }
 rewind($out);
