@@ -7,6 +7,10 @@
 1. Run `composer install`.
 1. Run `php export.php`.
 
+## Limitations
+* Does not support more than 50.000 entries in a week
+* Does not support summed entries that are more than 24 hours per day
+
 ## License
 MIT. See LICENSE file.
 
