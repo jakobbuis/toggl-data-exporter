@@ -75,7 +75,7 @@ foreach ($output as $client => $data) {
             $output[$client][$project][$day]['time'] = roundTime($entry['time']);
 
             // Merge all descriptions as comma-seperated entries
-            $output[$client][$project][$day]['descriptions'] = implode(', ', $entry['descriptions']);
+            $output[$client][$project][$day]['descriptions'] = implode(', ', array_unique($entry['descriptions']));
         }
     }
 }
