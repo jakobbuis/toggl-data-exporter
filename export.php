@@ -72,10 +72,7 @@ foreach ($output as $client => $data) {
     foreach ($data as $project => $data) {
         foreach ($data as $day => $entry) {
             // Format time
-            $time = $entry['time'] / 1000 / 60 / 60; // as 0.5 for an half hour
-            $time = round($time * 4) / 4; // round to 0.25 intervals
-            $time = number_format($time, 2);
-            $output[$client][$project][$day]['time'] = $time;
+            $output[$client][$project][$day]['time'] = roundTime($entry['time']);
 
             // Merge all descriptions as comma-seperated entries
             $output[$client][$project][$day]['descriptions'] = implode(', ', $entry['descriptions']);
@@ -88,7 +85,8 @@ $out = fopen('php://memory', 'w+');
 foreach ($output as $client => $data) {
     foreach ($data as $project => $data) {
         foreach ($data as $day => $entry) {
-            fwrite($out, "{$client} - {$project} - {$day} [{$entry['time']}] {$entry['descriptions']}" . PHP_EOL);
+            $time = number_format($entry['time'], 2);
+            fwrite($out, "{$client} - {$project} - {$day} [{$time}] {$entry['descriptions']}" . PHP_EOL);
         }
         fwrite($out, PHP_EOL);
     }
@@ -97,3 +95,29 @@ rewind($out);
 $filename = "toggl entries {$since} {$until}.txt";
 file_put_contents(__DIR__ . '/' . $filename, $out);
 echo "Results output to {$filename}" . PHP_EOL;
+
+/*
+ * Functions
+ */
+
+/**
+ * We use a biased rounding function. Everything is rounded to quarter hours,
+ * with rounding up on 5 minutes past the quarter. So 19:59 is rounded down to 0.25
+ * hours. 20:00 would be rounded up to 0.5 hours.
+ * @param int $time number of milliseconds
+ * @return float fractional hours, max. 2 decimals
+ */
+function roundTime(int $time): float {
+    $time = $time / 1000; // strip milliseconds
+    // Never round down to zero
+    if ($time < 900) {
+        return 0.25;
+    }
+    // Round to quarters (biased)
+    $frac = $time % 900;
+    $time = $time / 60 / 60; // as fractional hours
+    if ($frac < 300) {
+        return floor($time * 4) / 4;
+    }
+    return ceil($time * 4) / 4;
+}
