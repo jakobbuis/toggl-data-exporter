@@ -80,7 +80,17 @@ foreach ($output as $client => $data) {
     }
 }
 
-// Ouput data
+// Calculate total
+$total = 0.0;
+foreach ($output as $client => $data) {
+    foreach ($data as $project => $data) {
+        foreach ($data as $day => $entry) {
+            $total += $entry['time'];
+        }
+    }
+}
+
+// Ouput data to memory
 $out = fopen('php://memory', 'w+');
 foreach ($output as $client => $data) {
     foreach ($data as $project => $data) {
@@ -91,6 +101,9 @@ foreach ($output as $client => $data) {
         fwrite($out, PHP_EOL);
     }
 }
+fwrite($out, 'Totaal uren: ' . $total . PHP_EOL);
+
+// Flush to disk
 rewind($out);
 $filename = "toggl entries {$since} {$until}.txt";
 file_put_contents(__DIR__ . '/' . $filename, $out);
