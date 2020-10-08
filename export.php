@@ -105,7 +105,7 @@ fwrite($out, 'Totaal uren: ' . $total . PHP_EOL);
 
 // Flush to disk
 rewind($out);
-$filename = "toggl entries {$since} {$until}.txt";
+$filename = "hours-{$since}.txt";
 file_put_contents(__DIR__ . '/' . $filename, $out);
 echo "Results output to {$filename}" . PHP_EOL;
 
