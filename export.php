@@ -50,7 +50,9 @@ foreach ($timeEntries as $entry) {
     $client = $entry->client;
     $project = $entry->project;
     $day = Carbon::parse($entry->start)->format('Y-m-d');
-    $output[$client][$project][$day] ??= ['time' => 0, 'descriptions' => []];
+    if (!isset($output[$client][$project][$day])) {
+        $output[$client][$project][$day] = ['time' => 0, 'descriptions' => []];
+    }
 
     // add this new data
     $output[$client][$project][$day]['time'] += $entry->dur;
