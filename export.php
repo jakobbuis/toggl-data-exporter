@@ -43,7 +43,6 @@ for ($page = 1; $page < 100; $page++) {  // safety stopping condition 100 pages
 $count = count($timeEntries);
 echo "Got {$count} entries" . PHP_EOL;
 
-
 // Format into a OLAP-cube
 echo "Formatting results" . PHP_EOL;
 $output = [];
@@ -124,7 +123,8 @@ echo "Results output to {$filename}" . PHP_EOL;
  * @param int $time number of milliseconds
  * @return float fractional hours, max. 2 decimals
  */
-function roundTime(int $time): float {
+function roundTime(int $time): float
+{
     $time = $time / 1000; // strip milliseconds
     // Never round down to zero
     if ($time < 900) {
