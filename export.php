@@ -10,8 +10,10 @@ require __DIR__ . '/vendor/autoload.php';
 Dotenv::createImmutable(__DIR__)->load();
 
 // Determine limits
-$since = Carbon::now()->startOfWeek()->format('Y-m-d');
-$until = Carbon::now()->endOfWeek()->format('Y-m-d');
+$now = isset($argv[1]) ? Carbon::parse($argv[1]) : Carbon::now();
+$since = $now->clone()->startOfWeek()->format('Y-m-d');
+$until = $now->clone()->endOfWeek()->format('Y-m-d');
+unset($now);
 
 // Get data
 echo "Retrieving all entries from {$since} until {$until}" . PHP_EOL;
